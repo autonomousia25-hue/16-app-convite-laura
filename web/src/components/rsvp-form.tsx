@@ -41,10 +41,16 @@ export default function RsvpForm({ onSuccess }: { onSuccess: (nome: string, tota
     setIsSubmitting(true);
     
     try {
-      // TODO: Aqui conectamos com o Webhook do n8n / Google Sheets
-      // Simulando uma requisição
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
+      const response = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao confirmar presença");
+      }
+
       // Dispara confetes! 🎉
       confetti({
         particleCount: 150,
@@ -139,6 +145,11 @@ export default function RsvpForm({ onSuccess }: { onSuccess: (nome: string, tota
           </div>
         </div>
       </div>
+
+      {/* Aviso de convite pessoal e intransferível */}
+      <p className="text-xs text-center text-gray-400 italic">
+        Este convite é pessoal e intransferível.
+      </p>
 
       {/* Botão Enviar */}
       <button
