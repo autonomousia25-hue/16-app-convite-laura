@@ -3,9 +3,9 @@ import { google } from "googleapis";
 import * as z from "zod";
 
 const rsvpSchema = z.object({
-  nome: z.string().min(2),
-  adultos: z.number().min(1),
-  criancas: z.number().min(0),
+  nome: z.string().min(2).max(80),
+  adultos: z.number().int().min(1).max(20),
+  criancas: z.number().int().min(0).max(20),
 });
 
 function nowInBrazil() {
@@ -42,11 +42,23 @@ export async function POST(request: NextRequest) {
   });
 
   const sheets = google.sheets({ version: "v4", auth });
+  const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
 
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
-    range: "Confirmações!A:E",
-    valueInputOption: "USER_ENTERED",
+  // Determine the next empty row explicitly instead of relying on
+  // values.append's automatic table-detection, which was observed to
+  // overwrite existing rows after the sheet had gaps from cleared test data.
+  const existing = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    range: "Confirmações!A:A",
+  });
+  const nextRow = (existing.data.values?.length ?? 1) + 1;
+
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: `Confirmações!A${nextRow}:E${nextRow}`,
+    // RAW (not USER_ENTERED) so a guest name starting with =, +, -, or @
+    // is stored as literal text instead of being evaluated as a formula.
+    valueInputOption: "RAW",
     requestBody: {
       values: [[nowInBrazil(), nome, adultos, criancas, total]],
     },
