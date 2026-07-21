@@ -66,14 +66,18 @@ export async function POST(request: NextRequest) {
 
   // Notify the organizers' Telegram group. Best-effort: a failure here
   // must not fail the guest's confirmation, which is already saved.
+  // Must be awaited — Vercel can freeze/terminate the function as soon as
+  // the response is sent, silently dropping any un-awaited background fetch.
   if (process.env.N8N_RSVP_WEBHOOK_URL) {
-    fetch(process.env.N8N_RSVP_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome, adultos, criancas, total }),
-    }).catch((err) => {
+    try {
+      await fetch(process.env.N8N_RSVP_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, adultos, criancas, total }),
+      });
+    } catch (err) {
       console.error("Failed to notify n8n webhook:", err);
-    });
+    }
   }
 
   return NextResponse.json({ nome, total });
