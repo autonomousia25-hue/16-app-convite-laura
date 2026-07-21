@@ -66,11 +66,11 @@ export default function Home() {
           <button
             onClick={() => setIsTicketOpen(true)}
             disabled={!ticketData}
-            aria-label="Ver resumo da confirmação"
+            aria-label="Ver convite"
             className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 bg-pink-50 text-pink-600 rounded-full hover:bg-pink-100 active:scale-95 transition-all disabled:opacity-40 disabled:pointer-events-none"
           >
             <Ticket className="w-5 h-5" />
-            <span className="text-[10px] font-medium leading-none">Ingresso</span>
+            <span className="text-[10px] font-medium leading-none">Convite</span>
           </button>
         </div>
       </div>
