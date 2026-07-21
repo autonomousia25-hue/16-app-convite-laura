@@ -23,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="w-full h-screen flex flex-col relative max-w-md mx-auto shadow-2xl bg-white overflow-hidden">
+    <main className="w-full h-dvh flex flex-col relative max-w-md mx-auto shadow-2xl bg-white overflow-hidden">
       {/* Imagem do Convite como Hero — ocupa todo o espaço acima da navbar */}
       <div className="relative w-full flex-1 min-h-0 bg-[#fff5f8]">
         <Image
@@ -47,25 +47,30 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Acessar localização"
-            className="flex-1 flex items-center justify-center py-3 bg-pink-50 text-pink-600 rounded-full hover:bg-pink-100 active:scale-95 transition-all shadow-lg shadow-pink-300"
+            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 bg-pink-50 text-pink-600 rounded-full hover:bg-pink-100 active:scale-95 transition-all shadow-lg shadow-pink-300"
           >
             <MapPin className="w-5 h-5" />
+            <span className="text-[10px] font-medium leading-none">Local</span>
           </a>
           <button
             onClick={() => setIsRsvpOpen(true)}
             disabled={!!ticketData}
             aria-label="Confirmar presença"
-            className="flex-1 flex items-center justify-center py-3 bg-gradient-to-r from-pink-400 to-pink-500 text-white rounded-full hover:opacity-90 active:scale-95 transition-all shadow-md shadow-pink-200 disabled:opacity-40 disabled:pointer-events-none"
+            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 bg-gradient-to-r from-pink-400 to-pink-500 text-white rounded-full hover:opacity-90 active:scale-95 transition-all shadow-md shadow-pink-200 disabled:opacity-40 disabled:pointer-events-none"
           >
             <CheckCircle className="w-5 h-5" />
+            <span className="text-[10px] font-bold leading-none uppercase tracking-wide">
+              {ticketData ? "Confirmado" : "Confirmar"}
+            </span>
           </button>
           <button
             onClick={() => setIsTicketOpen(true)}
             disabled={!ticketData}
             aria-label="Ver resumo da confirmação"
-            className="flex-1 flex items-center justify-center py-3 bg-pink-50 text-pink-600 rounded-full hover:bg-pink-100 active:scale-95 transition-all disabled:opacity-40 disabled:pointer-events-none"
+            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 bg-pink-50 text-pink-600 rounded-full hover:bg-pink-100 active:scale-95 transition-all disabled:opacity-40 disabled:pointer-events-none"
           >
             <Ticket className="w-5 h-5" />
+            <span className="text-[10px] font-medium leading-none">Ingresso</span>
           </button>
         </div>
       </div>

@@ -146,6 +146,13 @@ export default function RsvpForm({ onSuccess }: { onSuccess: (nome: string, tota
         </div>
       </div>
 
+      {/* Orientação sobre o processo de confirmação */}
+      <div className="bg-pink-50/60 border border-pink-100 rounded-xl p-3">
+        <p className="text-xs text-center text-gray-500">
+          Ao confirmar, a presença é registrada e o botão <strong>Confirmar</strong> fica bloqueado — não é possível confirmar duas vezes pelo mesmo aparelho. Depois de confirmar, use o botão <strong>Ingresso</strong> na barra abaixo para ver seu QR Code sempre que precisar.
+        </p>
+      </div>
+
       {/* Aviso de convite pessoal e intransferível */}
       <p className="text-xs text-center text-gray-400 italic">
         Este convite é pessoal e intransferível.
